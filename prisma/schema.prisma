@@ -1,0 +1,63 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model books {
+  book_id        Int              @id @default(autoincrement())
+  title          String           @db.VarChar(200)
+  created_at     DateTime?        @default(now()) @db.Timestamp(6)
+  document_items document_items[]
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model document_items {
+  document_items_id BigInt    @id @default(autoincrement())
+  document_id       BigInt
+  book_id           Int
+  quantity          Int
+  books             books     @relation(fields: [book_id], references: [book_id], onDelete: NoAction, onUpdate: NoAction)
+  documents         documents @relation(fields: [document_id], references: [document_id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([document_id, book_id])
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model documents {
+  document_id                                        BigInt           @id @default(autoincrement())
+  document_type                                      String           @db.VarChar(10)
+  from_warehouse_id                                  Int
+  to_warehouse_id                                    Int?
+  related_document_id                                BigInt?
+  created_at                                         DateTime?        @default(now()) @db.Timestamp(6)
+  document_items                                     document_items[]
+  warehouses_documents_from_warehouse_idTowarehouses warehouses       @relation("documents_from_warehouse_idTowarehouses", fields: [from_warehouse_id], references: [warehouse_id], onDelete: NoAction, onUpdate: NoAction)
+  documents                                          documents?       @relation("documentsTodocuments", fields: [related_document_id], references: [document_id], onDelete: NoAction, onUpdate: NoAction)
+  other_documents                                    documents[]      @relation("documentsTodocuments")
+  warehouses_documents_to_warehouse_idTowarehouses   warehouses?      @relation("documents_to_warehouse_idTowarehouses", fields: [to_warehouse_id], references: [warehouse_id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model users {
+  user_id      Int         @id @default(autoincrement())
+  name         String      @db.VarChar(100)
+  email        String      @unique @db.VarChar(100)
+  password     String      @db.VarChar(100)
+  role         String      @db.VarChar(30)
+  warehouse_id Int?
+  created_at   DateTime?   @default(now()) @db.Timestamp(6)
+  warehouses   warehouses? @relation(fields: [warehouse_id], references: [warehouse_id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model warehouses {
+  warehouse_id                                      Int         @id @default(autoincrement())
+  name                                              String      @unique @db.VarChar(100)
+  created_at                                        DateTime?   @default(now()) @db.Timestamp(6)
+  documents_documents_from_warehouse_idTowarehouses documents[] @relation("documents_from_warehouse_idTowarehouses")
+  documents_documents_to_warehouse_idTowarehouses   documents[] @relation("documents_to_warehouse_idTowarehouses")
+  users                                             users[]
+}
