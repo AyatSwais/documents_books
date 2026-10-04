@@ -66,3 +66,18 @@ export type users = Prisma.usersModel
  * 
  */
 export type warehouses = Prisma.warehousesModel
+/**
+ * Model permissions
+ * 
+ */
+export type permissions = Prisma.permissionsModel
+/**
+ * Model role_permissions
+ * 
+ */
+export type role_permissions = Prisma.role_permissionsModel
+/**
+ * Model user_types
+ * 
+ */
+export type user_types = Prisma.user_typesModel

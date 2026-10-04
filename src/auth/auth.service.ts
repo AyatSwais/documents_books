@@ -4,7 +4,6 @@ import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service.js';
 import { LoginDto } from './dto/login.dto.js';
 import * as bcrypt from 'bcrypt';
-import { WarehousesScalarFieldEnum } from '../generated/prisma/internal/prismaNamespaceBrowser.js';
 
 
 @Injectable()
@@ -43,7 +42,6 @@ throw new UnauthorizedException('كلمة مرور او ايميل غير صحي
     const payload = {
     sub: user.user_id,
     email: user.email,
-    role: user.role,
     warehouse_id :user.warehouse_id,
     };
 

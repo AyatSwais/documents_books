@@ -1,4 +1,4 @@
-import { Injectable ,ForbiddenException ,NotFoundException } from '@nestjs/common';
+import { Injectable ,ForbiddenException ,NotFoundException ,BadRequestException} from '@nestjs/common';
 import {CreateincomingDto} from './dto/create-incoming.dto.js';
 import { CreateOutgoingDto } from './dto/create-outgoing.dto.js';
 import { PrismaService } from '../prisma/prisma.service.js';
@@ -8,33 +8,25 @@ import {CreateProductionDto} from './dto/create-production.dto.js';
 export class DocumentsService {
     constructor(private readonly prisma :PrismaService ){}
 
-// انشاء الصااااااااادرة 
+// انشاء الصااااااااادرة ================================================
+
     async createoutgoing(user:any ,dto:CreateOutgoingDto){
 
-        const fromwarehouseId=user.warehouse_id;
-        const warehouse = await this.prisma.warehouses.findUnique({
-            where: {
-                warehouse_id: fromwarehouseId,
-    },
-  });
+  const fromwarehouseId=user.warehouse_id;
   const towarehouseId=dto.toWarehouseId;
   const items=dto.items;
+    const warehouse = await this.prisma.warehouses.findUnique({
+            where: {
+                warehouse_id: towarehouseId,
+    },
+  });
 
   if (!warehouse) {
     throw new NotFoundException(
-      'المستودع غير موجود',
+      'المستودع الهدف غير موجود',
     );
-  }
-
-  if (
-    warehouse.name !== 'المطبعة' &&
-    warehouse.name !== 'المستودع المركزي'
-  ) {
-    throw new ForbiddenException(
-      'هذا المستودع غير مسموح له بإنشاء مذكرة صادر',
-    );
-  }
-
+  } 
+  try{ 
     const result =await this.prisma.$queryRaw<{document_id :bigint}[]>`
     SELECT create_outgoing_document(
       ${fromwarehouseId},
@@ -43,17 +35,25 @@ export class DocumentsService {
     ) AS document_id`;
 
   return { message:'تم انشاء مذكرة الصادر بنجاح',
-          documentId:result[0].document_id,
-  };
+          documentId:Number(result[0].document_id),
+  };}
+  catch(error:any){
+    throw new BadRequestException(
+      error?.meta?.driverAdapterErroe?.cause?.originalMessage??error?.message??'فشل انشاء مذكرة الصادر',
+    );
+  }
+  
     }
 
 
 
-// انشاء الوارد
+// انشاء الوارد =================================================================
+
     async createincoming(user:any ,dto:CreateincomingDto){
     const towarehouseId=user.warehouse_id;
     
     const outgoingDocumentId =dto.outgoingDocumentId;
+    try{
     const result =await this.prisma.$queryRaw<{incomingdocument_id :bigint}[]>`
     SELECT create_incoming_document(
       ${outgoingDocumentId},
@@ -61,11 +61,17 @@ export class DocumentsService {
     ) AS incomingdocument_id
     `;
     return { message:'تم انشاء مذكرة الوارد بنجاح',
-          documentId:result[0].incomingdocument_id,
+          documentId:Number(result[0].incomingdocument_id),
   };
+
+}catch(error:any){
+    throw new BadRequestException(
+      error?.meta?.driverAdapterErroe?.cause?.originalMessage??error?.message??'فشل انشاء مذكرة الصادر',
+    );
+  }
 }
 
-//انشاء - انتاج كتب 
+//انشاء - انتاج كتب =================================================================
 async createbooks(user:any ,dto:CreateProductionDto){
     const fromwarehouseId=user.warehouse_id;
     
@@ -78,13 +84,12 @@ async createbooks(user:any ,dto:CreateProductionDto){
     ) AS document_id
     `;
     return { message:' تم انتاج الكتب بالكميات المطلوبة ',
-          documentId:result[0].document_id,
+          documentId:Number(result[0].document_id),
   };
 }
 
 
-//==========================================================================================
-
+//============================================================
 
 async getmovementsbook() {
   const result = await this.prisma.$queryRaw<
@@ -115,6 +120,7 @@ async getmovementsbook() {
     })),
   };
 }
+//=========================================
 
 async getmy_balance(user: any) {
   const warehouseId = user.warehouse_id;
@@ -133,7 +139,7 @@ async getmy_balance(user: any) {
     }[]
   >`
     SELECT *
-    FROM get_warehouse_book_balance(${warehouseId})`
+    FROM get_warehouse_book_balance(${warehouseId});`
   ;
 
   return {

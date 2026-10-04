@@ -55,7 +55,10 @@ export const ModelName = {
   document_items: 'document_items',
   documents: 'documents',
   users: 'users',
-  warehouses: 'warehouses'
+  warehouses: 'warehouses',
+  permissions: 'permissions',
+  role_permissions: 'role_permissions',
+  user_types: 'user_types'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -110,7 +113,7 @@ export const UsersScalarFieldEnum = {
   name: 'name',
   email: 'email',
   password: 'password',
-  role: 'role',
+  user_type_id: 'user_type_id',
   warehouse_id: 'warehouse_id',
   created_at: 'created_at'
 } as const
@@ -125,6 +128,30 @@ export const WarehousesScalarFieldEnum = {
 } as const
 
 export type WarehousesScalarFieldEnum = (typeof WarehousesScalarFieldEnum)[keyof typeof WarehousesScalarFieldEnum]
+
+
+export const PermissionsScalarFieldEnum = {
+  permission_id: 'permission_id',
+  name: 'name'
+} as const
+
+export type PermissionsScalarFieldEnum = (typeof PermissionsScalarFieldEnum)[keyof typeof PermissionsScalarFieldEnum]
+
+
+export const Role_permissionsScalarFieldEnum = {
+  user_type_id: 'user_type_id',
+  permission_id: 'permission_id'
+} as const
+
+export type Role_permissionsScalarFieldEnum = (typeof Role_permissionsScalarFieldEnum)[keyof typeof Role_permissionsScalarFieldEnum]
+
+
+export const User_typesScalarFieldEnum = {
+  user_type_id: 'user_type_id',
+  name: 'name'
+} as const
+
+export type User_typesScalarFieldEnum = (typeof User_typesScalarFieldEnum)[keyof typeof User_typesScalarFieldEnum]
 
 
 export const SortOrder = {

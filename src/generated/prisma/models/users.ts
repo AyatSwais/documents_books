@@ -28,11 +28,13 @@ export type AggregateUsers = {
 
 export type UsersAvgAggregateOutputType = {
   user_id: number | null
+  user_type_id: number | null
   warehouse_id: number | null
 }
 
 export type UsersSumAggregateOutputType = {
   user_id: number | null
+  user_type_id: number | null
   warehouse_id: number | null
 }
 
@@ -41,7 +43,7 @@ export type UsersMinAggregateOutputType = {
   name: string | null
   email: string | null
   password: string | null
-  role: string | null
+  user_type_id: number | null
   warehouse_id: number | null
   created_at: Date | null
 }
@@ -51,7 +53,7 @@ export type UsersMaxAggregateOutputType = {
   name: string | null
   email: string | null
   password: string | null
-  role: string | null
+  user_type_id: number | null
   warehouse_id: number | null
   created_at: Date | null
 }
@@ -61,7 +63,7 @@ export type UsersCountAggregateOutputType = {
   name: number
   email: number
   password: number
-  role: number
+  user_type_id: number
   warehouse_id: number
   created_at: number
   _all: number
@@ -70,11 +72,13 @@ export type UsersCountAggregateOutputType = {
 
 export type UsersAvgAggregateInputType = {
   user_id?: true
+  user_type_id?: true
   warehouse_id?: true
 }
 
 export type UsersSumAggregateInputType = {
   user_id?: true
+  user_type_id?: true
   warehouse_id?: true
 }
 
@@ -83,7 +87,7 @@ export type UsersMinAggregateInputType = {
   name?: true
   email?: true
   password?: true
-  role?: true
+  user_type_id?: true
   warehouse_id?: true
   created_at?: true
 }
@@ -93,7 +97,7 @@ export type UsersMaxAggregateInputType = {
   name?: true
   email?: true
   password?: true
-  role?: true
+  user_type_id?: true
   warehouse_id?: true
   created_at?: true
 }
@@ -103,7 +107,7 @@ export type UsersCountAggregateInputType = {
   name?: true
   email?: true
   password?: true
-  role?: true
+  user_type_id?: true
   warehouse_id?: true
   created_at?: true
   _all?: true
@@ -200,7 +204,7 @@ export type UsersGroupByOutputType = {
   name: string
   email: string
   password: string
-  role: string
+  user_type_id: number | null
   warehouse_id: number | null
   created_at: Date | null
   _count: UsersCountAggregateOutputType | null
@@ -233,9 +237,10 @@ export type usersWhereInput = {
   name?: Prisma.StringFilter<"users"> | string
   email?: Prisma.StringFilter<"users"> | string
   password?: Prisma.StringFilter<"users"> | string
-  role?: Prisma.StringFilter<"users"> | string
+  user_type_id?: Prisma.IntNullableFilter<"users"> | number | null
   warehouse_id?: Prisma.IntNullableFilter<"users"> | number | null
   created_at?: Prisma.DateTimeNullableFilter<"users"> | Date | string | null
+  user_types?: Prisma.XOR<Prisma.User_typesNullableScalarRelationFilter, Prisma.user_typesWhereInput> | null
   warehouses?: Prisma.XOR<Prisma.WarehousesNullableScalarRelationFilter, Prisma.warehousesWhereInput> | null
 }
 
@@ -244,9 +249,10 @@ export type usersOrderByWithRelationInput = {
   name?: Prisma.SortOrder
   email?: Prisma.SortOrder
   password?: Prisma.SortOrder
-  role?: Prisma.SortOrder
+  user_type_id?: Prisma.SortOrderInput | Prisma.SortOrder
   warehouse_id?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  user_types?: Prisma.user_typesOrderByWithRelationInput
   warehouses?: Prisma.warehousesOrderByWithRelationInput
 }
 
@@ -258,9 +264,10 @@ export type usersWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.usersWhereInput | Prisma.usersWhereInput[]
   name?: Prisma.StringFilter<"users"> | string
   password?: Prisma.StringFilter<"users"> | string
-  role?: Prisma.StringFilter<"users"> | string
+  user_type_id?: Prisma.IntNullableFilter<"users"> | number | null
   warehouse_id?: Prisma.IntNullableFilter<"users"> | number | null
   created_at?: Prisma.DateTimeNullableFilter<"users"> | Date | string | null
+  user_types?: Prisma.XOR<Prisma.User_typesNullableScalarRelationFilter, Prisma.user_typesWhereInput> | null
   warehouses?: Prisma.XOR<Prisma.WarehousesNullableScalarRelationFilter, Prisma.warehousesWhereInput> | null
 }, "user_id" | "email">
 
@@ -269,7 +276,7 @@ export type usersOrderByWithAggregationInput = {
   name?: Prisma.SortOrder
   email?: Prisma.SortOrder
   password?: Prisma.SortOrder
-  role?: Prisma.SortOrder
+  user_type_id?: Prisma.SortOrderInput | Prisma.SortOrder
   warehouse_id?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.usersCountOrderByAggregateInput
@@ -287,7 +294,7 @@ export type usersScalarWhereWithAggregatesInput = {
   name?: Prisma.StringWithAggregatesFilter<"users"> | string
   email?: Prisma.StringWithAggregatesFilter<"users"> | string
   password?: Prisma.StringWithAggregatesFilter<"users"> | string
-  role?: Prisma.StringWithAggregatesFilter<"users"> | string
+  user_type_id?: Prisma.IntNullableWithAggregatesFilter<"users"> | number | null
   warehouse_id?: Prisma.IntNullableWithAggregatesFilter<"users"> | number | null
   created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"users"> | Date | string | null
 }
@@ -296,8 +303,8 @@ export type usersCreateInput = {
   name: string
   email: string
   password: string
-  role: string
   created_at?: Date | string | null
+  user_types?: Prisma.user_typesCreateNestedOneWithoutUsersInput
   warehouses?: Prisma.warehousesCreateNestedOneWithoutUsersInput
 }
 
@@ -306,7 +313,7 @@ export type usersUncheckedCreateInput = {
   name: string
   email: string
   password: string
-  role: string
+  user_type_id?: number | null
   warehouse_id?: number | null
   created_at?: Date | string | null
 }
@@ -315,8 +322,8 @@ export type usersUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  user_types?: Prisma.user_typesUpdateOneWithoutUsersNestedInput
   warehouses?: Prisma.warehousesUpdateOneWithoutUsersNestedInput
 }
 
@@ -325,7 +332,7 @@ export type usersUncheckedUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.StringFieldUpdateOperationsInput | string
+  user_type_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   warehouse_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -335,7 +342,7 @@ export type usersCreateManyInput = {
   name: string
   email: string
   password: string
-  role: string
+  user_type_id?: number | null
   warehouse_id?: number | null
   created_at?: Date | string | null
 }
@@ -344,7 +351,6 @@ export type usersUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
@@ -353,7 +359,7 @@ export type usersUncheckedUpdateManyInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.StringFieldUpdateOperationsInput | string
+  user_type_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   warehouse_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -363,13 +369,14 @@ export type usersCountOrderByAggregateInput = {
   name?: Prisma.SortOrder
   email?: Prisma.SortOrder
   password?: Prisma.SortOrder
-  role?: Prisma.SortOrder
+  user_type_id?: Prisma.SortOrder
   warehouse_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
 }
 
 export type usersAvgOrderByAggregateInput = {
   user_id?: Prisma.SortOrder
+  user_type_id?: Prisma.SortOrder
   warehouse_id?: Prisma.SortOrder
 }
 
@@ -378,7 +385,7 @@ export type usersMaxOrderByAggregateInput = {
   name?: Prisma.SortOrder
   email?: Prisma.SortOrder
   password?: Prisma.SortOrder
-  role?: Prisma.SortOrder
+  user_type_id?: Prisma.SortOrder
   warehouse_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
 }
@@ -388,13 +395,14 @@ export type usersMinOrderByAggregateInput = {
   name?: Prisma.SortOrder
   email?: Prisma.SortOrder
   password?: Prisma.SortOrder
-  role?: Prisma.SortOrder
+  user_type_id?: Prisma.SortOrder
   warehouse_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
 }
 
 export type usersSumOrderByAggregateInput = {
   user_id?: Prisma.SortOrder
+  user_type_id?: Prisma.SortOrder
   warehouse_id?: Prisma.SortOrder
 }
 
@@ -450,12 +458,54 @@ export type usersUncheckedUpdateManyWithoutWarehousesNestedInput = {
   deleteMany?: Prisma.usersScalarWhereInput | Prisma.usersScalarWhereInput[]
 }
 
+export type usersCreateNestedManyWithoutUser_typesInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutUser_typesInput, Prisma.usersUncheckedCreateWithoutUser_typesInput> | Prisma.usersCreateWithoutUser_typesInput[] | Prisma.usersUncheckedCreateWithoutUser_typesInput[]
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutUser_typesInput | Prisma.usersCreateOrConnectWithoutUser_typesInput[]
+  createMany?: Prisma.usersCreateManyUser_typesInputEnvelope
+  connect?: Prisma.usersWhereUniqueInput | Prisma.usersWhereUniqueInput[]
+}
+
+export type usersUncheckedCreateNestedManyWithoutUser_typesInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutUser_typesInput, Prisma.usersUncheckedCreateWithoutUser_typesInput> | Prisma.usersCreateWithoutUser_typesInput[] | Prisma.usersUncheckedCreateWithoutUser_typesInput[]
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutUser_typesInput | Prisma.usersCreateOrConnectWithoutUser_typesInput[]
+  createMany?: Prisma.usersCreateManyUser_typesInputEnvelope
+  connect?: Prisma.usersWhereUniqueInput | Prisma.usersWhereUniqueInput[]
+}
+
+export type usersUpdateManyWithoutUser_typesNestedInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutUser_typesInput, Prisma.usersUncheckedCreateWithoutUser_typesInput> | Prisma.usersCreateWithoutUser_typesInput[] | Prisma.usersUncheckedCreateWithoutUser_typesInput[]
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutUser_typesInput | Prisma.usersCreateOrConnectWithoutUser_typesInput[]
+  upsert?: Prisma.usersUpsertWithWhereUniqueWithoutUser_typesInput | Prisma.usersUpsertWithWhereUniqueWithoutUser_typesInput[]
+  createMany?: Prisma.usersCreateManyUser_typesInputEnvelope
+  set?: Prisma.usersWhereUniqueInput | Prisma.usersWhereUniqueInput[]
+  disconnect?: Prisma.usersWhereUniqueInput | Prisma.usersWhereUniqueInput[]
+  delete?: Prisma.usersWhereUniqueInput | Prisma.usersWhereUniqueInput[]
+  connect?: Prisma.usersWhereUniqueInput | Prisma.usersWhereUniqueInput[]
+  update?: Prisma.usersUpdateWithWhereUniqueWithoutUser_typesInput | Prisma.usersUpdateWithWhereUniqueWithoutUser_typesInput[]
+  updateMany?: Prisma.usersUpdateManyWithWhereWithoutUser_typesInput | Prisma.usersUpdateManyWithWhereWithoutUser_typesInput[]
+  deleteMany?: Prisma.usersScalarWhereInput | Prisma.usersScalarWhereInput[]
+}
+
+export type usersUncheckedUpdateManyWithoutUser_typesNestedInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutUser_typesInput, Prisma.usersUncheckedCreateWithoutUser_typesInput> | Prisma.usersCreateWithoutUser_typesInput[] | Prisma.usersUncheckedCreateWithoutUser_typesInput[]
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutUser_typesInput | Prisma.usersCreateOrConnectWithoutUser_typesInput[]
+  upsert?: Prisma.usersUpsertWithWhereUniqueWithoutUser_typesInput | Prisma.usersUpsertWithWhereUniqueWithoutUser_typesInput[]
+  createMany?: Prisma.usersCreateManyUser_typesInputEnvelope
+  set?: Prisma.usersWhereUniqueInput | Prisma.usersWhereUniqueInput[]
+  disconnect?: Prisma.usersWhereUniqueInput | Prisma.usersWhereUniqueInput[]
+  delete?: Prisma.usersWhereUniqueInput | Prisma.usersWhereUniqueInput[]
+  connect?: Prisma.usersWhereUniqueInput | Prisma.usersWhereUniqueInput[]
+  update?: Prisma.usersUpdateWithWhereUniqueWithoutUser_typesInput | Prisma.usersUpdateWithWhereUniqueWithoutUser_typesInput[]
+  updateMany?: Prisma.usersUpdateManyWithWhereWithoutUser_typesInput | Prisma.usersUpdateManyWithWhereWithoutUser_typesInput[]
+  deleteMany?: Prisma.usersScalarWhereInput | Prisma.usersScalarWhereInput[]
+}
+
 export type usersCreateWithoutWarehousesInput = {
   name: string
   email: string
   password: string
-  role: string
   created_at?: Date | string | null
+  user_types?: Prisma.user_typesCreateNestedOneWithoutUsersInput
 }
 
 export type usersUncheckedCreateWithoutWarehousesInput = {
@@ -463,7 +513,7 @@ export type usersUncheckedCreateWithoutWarehousesInput = {
   name: string
   email: string
   password: string
-  role: string
+  user_type_id?: number | null
   created_at?: Date | string | null
 }
 
@@ -501,9 +551,52 @@ export type usersScalarWhereInput = {
   name?: Prisma.StringFilter<"users"> | string
   email?: Prisma.StringFilter<"users"> | string
   password?: Prisma.StringFilter<"users"> | string
-  role?: Prisma.StringFilter<"users"> | string
+  user_type_id?: Prisma.IntNullableFilter<"users"> | number | null
   warehouse_id?: Prisma.IntNullableFilter<"users"> | number | null
   created_at?: Prisma.DateTimeNullableFilter<"users"> | Date | string | null
+}
+
+export type usersCreateWithoutUser_typesInput = {
+  name: string
+  email: string
+  password: string
+  created_at?: Date | string | null
+  warehouses?: Prisma.warehousesCreateNestedOneWithoutUsersInput
+}
+
+export type usersUncheckedCreateWithoutUser_typesInput = {
+  user_id?: number
+  name: string
+  email: string
+  password: string
+  warehouse_id?: number | null
+  created_at?: Date | string | null
+}
+
+export type usersCreateOrConnectWithoutUser_typesInput = {
+  where: Prisma.usersWhereUniqueInput
+  create: Prisma.XOR<Prisma.usersCreateWithoutUser_typesInput, Prisma.usersUncheckedCreateWithoutUser_typesInput>
+}
+
+export type usersCreateManyUser_typesInputEnvelope = {
+  data: Prisma.usersCreateManyUser_typesInput | Prisma.usersCreateManyUser_typesInput[]
+  skipDuplicates?: boolean
+}
+
+export type usersUpsertWithWhereUniqueWithoutUser_typesInput = {
+  where: Prisma.usersWhereUniqueInput
+  update: Prisma.XOR<Prisma.usersUpdateWithoutUser_typesInput, Prisma.usersUncheckedUpdateWithoutUser_typesInput>
+  create: Prisma.XOR<Prisma.usersCreateWithoutUser_typesInput, Prisma.usersUncheckedCreateWithoutUser_typesInput>
+}
+
+export type usersUpdateWithWhereUniqueWithoutUser_typesInput = {
+  where: Prisma.usersWhereUniqueInput
+  data: Prisma.XOR<Prisma.usersUpdateWithoutUser_typesInput, Prisma.usersUncheckedUpdateWithoutUser_typesInput>
+}
+
+export type usersUpdateManyWithWhereWithoutUser_typesInput = {
+  where: Prisma.usersScalarWhereInput
+  data: Prisma.XOR<Prisma.usersUpdateManyMutationInput, Prisma.usersUncheckedUpdateManyWithoutUser_typesInput>
 }
 
 export type usersCreateManyWarehousesInput = {
@@ -511,7 +604,7 @@ export type usersCreateManyWarehousesInput = {
   name: string
   email: string
   password: string
-  role: string
+  user_type_id?: number | null
   created_at?: Date | string | null
 }
 
@@ -519,8 +612,8 @@ export type usersUpdateWithoutWarehousesInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  user_types?: Prisma.user_typesUpdateOneWithoutUsersNestedInput
 }
 
 export type usersUncheckedUpdateWithoutWarehousesInput = {
@@ -528,7 +621,7 @@ export type usersUncheckedUpdateWithoutWarehousesInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.StringFieldUpdateOperationsInput | string
+  user_type_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
@@ -537,7 +630,42 @@ export type usersUncheckedUpdateManyWithoutWarehousesInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.StringFieldUpdateOperationsInput | string
+  user_type_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type usersCreateManyUser_typesInput = {
+  user_id?: number
+  name: string
+  email: string
+  password: string
+  warehouse_id?: number | null
+  created_at?: Date | string | null
+}
+
+export type usersUpdateWithoutUser_typesInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  warehouses?: Prisma.warehousesUpdateOneWithoutUsersNestedInput
+}
+
+export type usersUncheckedUpdateWithoutUser_typesInput = {
+  user_id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  warehouse_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type usersUncheckedUpdateManyWithoutUser_typesInput = {
+  user_id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  warehouse_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
@@ -548,9 +676,10 @@ export type usersSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   name?: boolean
   email?: boolean
   password?: boolean
-  role?: boolean
+  user_type_id?: boolean
   warehouse_id?: boolean
   created_at?: boolean
+  user_types?: boolean | Prisma.users$user_typesArgs<ExtArgs>
   warehouses?: boolean | Prisma.users$warehousesArgs<ExtArgs>
 }, ExtArgs["result"]["users"]>
 
@@ -559,9 +688,10 @@ export type usersSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   name?: boolean
   email?: boolean
   password?: boolean
-  role?: boolean
+  user_type_id?: boolean
   warehouse_id?: boolean
   created_at?: boolean
+  user_types?: boolean | Prisma.users$user_typesArgs<ExtArgs>
   warehouses?: boolean | Prisma.users$warehousesArgs<ExtArgs>
 }, ExtArgs["result"]["users"]>
 
@@ -570,9 +700,10 @@ export type usersSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   name?: boolean
   email?: boolean
   password?: boolean
-  role?: boolean
+  user_type_id?: boolean
   warehouse_id?: boolean
   created_at?: boolean
+  user_types?: boolean | Prisma.users$user_typesArgs<ExtArgs>
   warehouses?: boolean | Prisma.users$warehousesArgs<ExtArgs>
 }, ExtArgs["result"]["users"]>
 
@@ -581,25 +712,29 @@ export type usersSelectScalar = {
   name?: boolean
   email?: boolean
   password?: boolean
-  role?: boolean
+  user_type_id?: boolean
   warehouse_id?: boolean
   created_at?: boolean
 }
 
-export type usersOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"user_id" | "name" | "email" | "password" | "role" | "warehouse_id" | "created_at", ExtArgs["result"]["users"]>
+export type usersOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"user_id" | "name" | "email" | "password" | "user_type_id" | "warehouse_id" | "created_at", ExtArgs["result"]["users"]>
 export type usersInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  user_types?: boolean | Prisma.users$user_typesArgs<ExtArgs>
   warehouses?: boolean | Prisma.users$warehousesArgs<ExtArgs>
 }
 export type usersIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  user_types?: boolean | Prisma.users$user_typesArgs<ExtArgs>
   warehouses?: boolean | Prisma.users$warehousesArgs<ExtArgs>
 }
 export type usersIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  user_types?: boolean | Prisma.users$user_typesArgs<ExtArgs>
   warehouses?: boolean | Prisma.users$warehousesArgs<ExtArgs>
 }
 
 export type $usersPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "users"
   objects: {
+    user_types: Prisma.$user_typesPayload<ExtArgs> | null
     warehouses: Prisma.$warehousesPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -607,7 +742,7 @@ export type $usersPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     name: string
     email: string
     password: string
-    role: string
+    user_type_id: number | null
     warehouse_id: number | null
     created_at: Date | null
   }, ExtArgs["result"]["users"]>
@@ -1004,6 +1139,7 @@ readonly fields: usersFieldRefs;
  */
 export interface Prisma__usersClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  user_types<T extends Prisma.users$user_typesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$user_typesArgs<ExtArgs>>): Prisma.Prisma__user_typesClient<runtime.Types.Result.GetResult<Prisma.$user_typesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   warehouses<T extends Prisma.users$warehousesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$warehousesArgs<ExtArgs>>): Prisma.Prisma__warehousesClient<runtime.Types.Result.GetResult<Prisma.$warehousesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1038,7 +1174,7 @@ export interface usersFieldRefs {
   readonly name: Prisma.FieldRef<"users", 'String'>
   readonly email: Prisma.FieldRef<"users", 'String'>
   readonly password: Prisma.FieldRef<"users", 'String'>
-  readonly role: Prisma.FieldRef<"users", 'String'>
+  readonly user_type_id: Prisma.FieldRef<"users", 'Int'>
   readonly warehouse_id: Prisma.FieldRef<"users", 'Int'>
   readonly created_at: Prisma.FieldRef<"users", 'DateTime'>
 }
@@ -1439,6 +1575,25 @@ export type usersDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * Limit how many users to delete.
    */
   limit?: number
+}
+
+/**
+ * users.user_types
+ */
+export type users$user_typesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the user_types
+   */
+  select?: Prisma.user_typesSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the user_types
+   */
+  omit?: Prisma.user_typesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.user_typesInclude<ExtArgs> | null
+  where?: Prisma.user_typesWhereInput
 }
 
 /**

@@ -16,5 +16,9 @@ export class CreateUserDto {
 
   @IsOptional()
   @IsInt()
+  usertypeId?:number;
+
+  @IsOptional()
+  @IsInt()
   warehouseId?:number;
 }

@@ -47,9 +47,10 @@ model users {
   name         String      @db.VarChar(100)
   email        String      @unique @db.VarChar(100)
   password     String      @db.VarChar(100)
-  role         String      @db.VarChar(30)
+  user_type_id Int?
   warehouse_id Int?
   created_at   DateTime?   @default(now()) @db.Timestamp(6)
+  user_types   user_types? @relation(fields: [user_type_id], references: [user_type_id], onDelete: NoAction, onUpdate: NoAction)
   warehouses   warehouses? @relation(fields: [warehouse_id], references: [warehouse_id], onDelete: NoAction, onUpdate: NoAction)
 }
 
@@ -60,4 +61,26 @@ model warehouses {
   documents_documents_from_warehouse_idTowarehouses documents[] @relation("documents_from_warehouse_idTowarehouses")
   documents_documents_to_warehouse_idTowarehouses   documents[] @relation("documents_to_warehouse_idTowarehouses")
   users                                             users[]
+}
+
+model permissions {
+  permission_id    Int                @id @default(autoincrement())
+  name             String             @unique @db.VarChar(100)
+  role_permissions role_permissions[]
+}
+
+model role_permissions {
+  user_type_id  Int
+  permission_id Int
+  permissions   permissions @relation(fields: [permission_id], references: [permission_id], onDelete: Cascade, onUpdate: NoAction)
+  user_types    user_types  @relation(fields: [user_type_id], references: [user_type_id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@id([user_type_id, permission_id])
+}
+
+model user_types {
+  user_type_id     Int                @id @default(autoincrement())
+  name             String             @unique @db.VarChar(50)
+  role_permissions role_permissions[]
+  users            users[]
 }
