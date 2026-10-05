@@ -333,7 +333,7 @@ FROM document_items WHERE document_id=p_outgoingDocumentId;
 
 RETURN v_incomingDocument_id ;
 END;
-$$
+$$;
 
 --=====================================================
 --معرفة رصيد الكتب في مستودعي 
@@ -367,7 +367,7 @@ LEFT JOIN documents d ON d.document_id =di.document_id
 GROUP BY b.book_id ,b.title ORDER BY b.book_id;
 
 END;
-$$
+$$;
 --=====================================================================
 -- اظهالا حركة الكتب مع كميتها ونوع المذكرة ...
 CREATE OR REPLACE FUNCTION get_movements_warehouses()
