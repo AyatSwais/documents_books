@@ -77,6 +77,7 @@ CREATE TABLE users(
   created_at TIMESTAMP DEFAULT NOW()
 );
 
+CREATE UNIQUE INDEX IF NOT EXISTS unique_incoming_for_outgoing ON documents(related_document_id) WHERE document_type='INCOMING';
 
 -- INSERT INTO warehouses(name) VALUES ('المطبعة'),('المستودع المركزي'),('المستودع الرئيسي');
 -- INSERT INTO books (title) VALUES ('قواعد بيانات'),('معرفية '),('برمجة');

@@ -39,7 +39,7 @@ export class DocumentsService {
   };}
   catch(error:any){
     throw new BadRequestException(
-      error?.meta?.driverAdapterErroe?.cause?.originalMessage??error?.message??'فشل انشاء مذكرة الصادر',
+      error?.meta?.driverAdapterError?.cause?.originalMessage??error?.message??'فشل انشاء مذكرة الصادر',
     );
   }
   
@@ -66,7 +66,7 @@ export class DocumentsService {
 
 }catch(error:any){
     throw new BadRequestException(
-      error?.meta?.driverAdapterErroe?.cause?.originalMessage??error?.message??'فشل انشاء مذكرة الصادر',
+      error?.meta?.driverAdapterError?.cause?.originalMessage??error?.message??'فشل انشاء مذكرة الصادر',
     );
   }
 }
@@ -76,7 +76,8 @@ async createbooks(user:any ,dto:CreateProductionDto){
     const fromwarehouseId=user.warehouse_id;
     
     const items =dto.items;
-    const result =await this.prisma.$queryRaw<{document_id :bigint}[]>`
+    try{ 
+      const result =await this.prisma.$queryRaw<{document_id :bigint}[]>`
     SELECT create_production(
       ${fromwarehouseId},
       ${JSON.stringify(items)}:: jsonb
@@ -86,7 +87,13 @@ async createbooks(user:any ,dto:CreateProductionDto){
     return { message:' تم انتاج الكتب بالكميات المطلوبة ',
           documentId:Number(result[0].document_id),
   };
+  }catch(error:any){
+    throw new BadRequestException(
+      error?.meta?.driverAdapterError?.cause?.originalMessage??error?.message??'فشل انشاء مذكرة الصادر',
+    );
+  }
 }
+
 
 
 //============================================================

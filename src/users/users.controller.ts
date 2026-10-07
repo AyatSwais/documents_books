@@ -19,14 +19,14 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
 
-  @UseGuards(SuperAdminGuard)
+   @UseGuards(SuperAdminGuard)
    @Get()
   async findAll() {
     const users = await this.usersService.findAll();
 
     return users.map(({ password, ...user }) => user);
   }
- 
+  @UseGuards(SuperAdminGuard)
   @Get(':id')
   async findById(@Param('id', ParseIntPipe) id: number) {
     const user = await this.usersService.findById(id);
@@ -35,6 +35,7 @@ export class UsersController {
 
     return safeUser;
   }
+  
   @UseGuards(SuperAdminGuard)
   @Post()
   create(@Body() userData: CreateUserDto) {

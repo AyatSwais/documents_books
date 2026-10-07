@@ -302,7 +302,7 @@ DECLARE
 BEGIN
 
 SELECT from_warehouse_id ,to_warehouse_id ,document_type INTO v_fromWarehouseId , v_toWarehouseId, v_document_type
-FROM documents WHERE document_id =p_outgoingDocumentId ;
+FROM documents WHERE document_id =p_outgoingDocumentId FOR UPDATE ;
 IF NOT FOUND THEN  
 RAISE EXCEPTION 'لا يوجد مذكرة صادرة برقم % لاستلامها ', p_outgoingDocumentId ;
 END IF;
