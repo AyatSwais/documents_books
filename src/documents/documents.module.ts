@@ -3,8 +3,8 @@ import { DocumentsController } from './documents.controller.js';
 import { DocumentsService } from './documents.service.js';
 import { AuthModule } from '../auth/auth.module.js';
 @Module({
-  imports:[AuthModule],
+  imports: [AuthModule],
   controllers: [DocumentsController],
-  providers: [DocumentsService]
+  providers: [DocumentsService],
 })
 export class DocumentsModule {}

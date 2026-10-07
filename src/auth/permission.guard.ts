@@ -18,11 +18,10 @@ export class PermissionGuard implements CanActivate {
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const requiredPermissions =
-      this.reflector.getAllAndOverride<string[]>(
-        PERMISSIONS_KEY,
-        [context.getHandler(), context.getClass()],
-      );
+    const requiredPermissions = this.reflector.getAllAndOverride<string[]>(
+      PERMISSIONS_KEY,
+      [context.getHandler(), context.getClass()],
+    );
 
     if (!requiredPermissions || requiredPermissions.length === 0) {
       return true;
@@ -56,22 +55,17 @@ export class PermissionGuard implements CanActivate {
     }
 
     // جلب الصلاحيات المرتبطة بدور المستخدم
-    const result = await this.prisma.$queryRaw<
-      { permission_name: string }[]
-    >`
+    const result = await this.prisma.$queryRaw<{ permission_name: string }[]>`
       SELECT DISTINCT p.name AS permission_name
       FROM role_permissions rp
       JOIN permissions p
         ON p.permission_id = rp.permission_id
-      WHERE rp.user_type_id = ${currentUser.user_type_id}`
-    ;
+      WHERE rp.user_type_id = ${currentUser.user_type_id}`;
 
-    const userPermissions = result.map(
-      (item) => item.permission_name,
-    );
+    const userPermissions = result.map((item) => item.permission_name);
 
-    const hasAllPermissions = requiredPermissions.every(
-      (permission) => userPermissions.includes(permission),
+    const hasAllPermissions = requiredPermissions.every((permission) =>
+      userPermissions.includes(permission),
     );
 
     if (!hasAllPermissions) {

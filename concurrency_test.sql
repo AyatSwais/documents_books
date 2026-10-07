@@ -38,7 +38,7 @@ SELECT create_incoming_document(29, 2);
 
 -- 2. Unique Partial Index تم انشاء 
 -- CREATE UNIQUE INDEX IF NOT EXISTS
--- unique_incoming_per_outgoing
+-- unique_incoming_for_outgoing
 -- ON documents (related_document_id)
 -- WHERE document_type = 'INCOMING';
 

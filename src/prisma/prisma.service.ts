@@ -3,7 +3,8 @@ import { PrismaPg } from '@prisma/adapter-pg';
 import { PrismaClient } from '../generated/prisma/client.js';
 
 @Injectable()
-export class PrismaService extends PrismaClient
+export class PrismaService
+  extends PrismaClient
   implements OnModuleInit, OnModuleDestroy
 {
   constructor() {

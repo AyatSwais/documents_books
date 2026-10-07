@@ -5,3 +5,5 @@ async function main() {
     console.log(hashpassword);
 }
 main();
+
+// تشغيله من خلال node hash-password.cjs
